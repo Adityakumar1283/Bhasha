@@ -3,7 +3,7 @@ type Props = {
 };
 import { Footer } from "./footer";
 import {Header }from "./header";
-const layout = ({ children }: Props) => {
+const layout = ({ children, }: Props) => {
   return (
     <div className="min-h-screen flex flex-col">
         <Header/>

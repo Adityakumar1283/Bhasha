@@ -20,7 +20,7 @@ export const Header = () => {
           <UserButton />
         </SignedIn>
         <SignedOut>
-          <SignInButton mode="modal" >
+          <SignInButton mode="modal" > 
           <Button size="lg" variant="ghost" >
             Login
             </Button></SignInButton>

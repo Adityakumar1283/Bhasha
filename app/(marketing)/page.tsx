@@ -7,9 +7,11 @@ import {
   SignUpButton,
 } from "@clerk/clerk-react";
 import { ClerkLoaded, ClerkLoading } from "@clerk/nextjs";
-import { Link, Loader } from "lucide-react";
+import {  Loader } from "lucide-react";
 import Image from "next/image";
 
+
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -27,7 +29,7 @@ export default function Home() {
           </ClerkLoading>
           <ClerkLoaded>
             <SignedOut>
-              <SignUpButton mode="modal">
+              <SignUpButton mode="modal" >
                 <Button size="lg" variant="secondary" className="w-full">
                   Get Started
                 </Button>
@@ -40,10 +42,10 @@ export default function Home() {
             </SignedOut>
             <SignedIn>
                 <Button size='lg' variant="secondary" className="w-full" asChild>
-                    <Link href={"/dashboard"}>
+                <Link href="/learn">
                     Continue Learning
-                    </Link>
                     
+                    </Link>
                 </Button>
               
             </SignedIn>
