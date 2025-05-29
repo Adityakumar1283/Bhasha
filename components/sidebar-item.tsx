@@ -19,7 +19,7 @@ export const SidebarItem = ({ label, icon, href }: Props) => {
   return (
     <Button variant={active ? "sidebarOutline" : "sidebar"}
     className="justify-start h[52px]" asChild>
-        <Link href="/learn">
+        <Link href="">
         <Image 
         src={icon}
         alt={label}

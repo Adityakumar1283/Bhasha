@@ -41,7 +41,7 @@ export default function Home() {
               </SignInButton>
             </SignedOut>
             <SignedIn>
-                <Button size='lg' variant="secondary" className="w-full" asChild>
+                <Button size='lg' variant="secondary" className="w-full " asChild>
                 <Link href="/learn">
                     Continue Learning
                     
