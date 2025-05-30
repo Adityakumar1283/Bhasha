@@ -1,16 +1,33 @@
-" use client";
+"use client"
 
 import { courses } from "@/config/schema";
-
+import Card from "./Card";
 type Props = {
   courses: typeof courses.$inferSelect[];
   activeCourseId: number;
 }
 
-export const List = ({ }: Props) => {
+export const List = ({courses,activeCourseId }: Props) => {
 return (
 
-    <div> list</div>
+    <div className=" pt-6 grid grid-cols-2 lg:grid-cols-[repeat(auto-fill,minmax(210px,1fr))] gap-4">
+        {courses.map((course)=>(
+          <Card
+              key={course.id}
+              id={ course.id}
+              title={course.title}
+              imageSrc={course.imageSrc}
+
+              onClick={ ()=> {}}
+
+              disabled={false}
+              active={ course.id === activeCourseId}
+          
+          />
+        )) }
+
+
+    </div>
 )
 }
 
