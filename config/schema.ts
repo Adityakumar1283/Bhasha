@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { integer } from "drizzle-orm/gel-core";
+import { integer } from "drizzle-orm/pg-core";
 import { serial, pgTable, text } from "drizzle-orm/pg-core";
 
 
@@ -16,7 +16,7 @@ export const coursesRelations = relations(courses, ({many })=>({
 
 export const userProgress = pgTable("user_progress",{
   userId: text("user_id").primaryKey(),
-  userNmae: text("user_name").notNull().default("User"),
+  userName: text("user_name").notNull().default("User"),
   userImageSrc: text("user_image_src").notNull().default("/mascot.svg"),
   activeCourseId: integer("active_courses_id").references(()=>courses.id, { onDelete: "cascade"}),
   hearts: integer("hearts").notNull().default(5),
