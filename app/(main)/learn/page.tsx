@@ -1,5 +1,4 @@
 
-
 import { StickeyWrapper } from "@/components/StickeyWrapper";
 import { Feedwrapper } from "@/components/Feedwrapper";
 import { Header} from "./header"
@@ -17,7 +16,7 @@ const Page = async ()=>  {
 
   if ( !userProgress || !userProgress.activeCourse){
 
-    redirect("/courses")
+    redirect("/courses");
     
   }
 
@@ -26,15 +25,15 @@ const Page = async ()=>  {
      <StickeyWrapper>
       
       <UserProgress 
-      activeCourse={{ title: "Spanish", ImageSrc: "/es.svg" }}
-      hearts={5}
-      points={100}
+      activeCourse={userProgress.activeCourse}
+      hearts={userProgress.hearts}
+      points={userProgress.points}
       hasSubscribed={false}
       >
       </UserProgress>
       </StickeyWrapper>
       <Feedwrapper>
-        <Header title="Spanish"/> 
+        <Header title={userProgress.activeCourse.title}/> 
       
       </Feedwrapper>
        

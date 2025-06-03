@@ -20,10 +20,20 @@ export const List = ({ courses, activeCourseId }: Props) => {
     if( id === activeCourseId){
       return router.push("/learn");
     }
-    startTransition(()=>{
-      upsertUserProgress(id)
-      .catch(()=> toast.error("Something went wrong"))
+    startTransition(() => {
+ // console.log("Calling upsertUserProgress with id:", id);
+  upsertUserProgress(id)
+    .then(() => {
+      console.log("upsertUserProgress resolved");
+      // router.push("/learn"); // Not needed, server action redirects
+    })
+    .catch((err) => {
+      // Ignore Next.js redirect error
+      if (err?.digest && String(err.digest).startsWith("NEXT_REDIRECT")) return;
+      console.error("Client error:", err);
+      toast.error("Something went wrong", err);
     });
+});
   }
   return (
     <div className=" pt-6 grid grid-cols-2 lg:grid-cols-[repeat(auto-fill,minmax(210px,1fr))] gap-4">

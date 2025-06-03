@@ -2,12 +2,13 @@ import Link from 'next/link';
 import { Button } from './ui/button';
 import Image from 'next/image';
 import { InfinityIcon } from 'lucide-react';
+import { courses } from '@/config/schema';
 
 type Props= {
-    activeCourse:{ ImageSrc:string, title:string }
-    hearts:number
-    points:number
-    hasSubscribed:boolean
+    activeCourse:typeof courses.$inferSelect;
+    hearts:number;
+    points:number;
+    hasSubscribed:boolean;
 }
 
 export const UserProgress = ({activeCourse,points,hearts,hasSubscribed}:Props) => {
@@ -15,7 +16,7 @@ export const UserProgress = ({activeCourse,points,hearts,hasSubscribed}:Props) =
     <div className="flex items-center justify-between gap-x-2 w-full ">
       <Link href="/courses">
       <Button>
-        <Image src={ activeCourse.ImageSrc} alt={activeCourse.title}
+        <Image src={activeCourse.imageSrc} alt={activeCourse.title}
         className='rounded-md  border'
         width={32}
         height={32} 
