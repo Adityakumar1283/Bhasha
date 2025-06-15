@@ -57,11 +57,11 @@ const LessonButton = ({
         className="relative"
         style={{
           right: `${rightPosition}px`,
-          marginTop: isFirst && !isCompeleted ? 78 : 20,
+          marginTop: isFirst && !isCompeleted ? 75:20,
         }}
       >
         {current ? (
-          <div className="h-[102px] w-[102]px relative">
+          <div className="h-[102px] w-[102px] relative">
             <div className="absolute -top-15 left-1/2 -translate-x-1/2 px-3 py-2 border-2 font-bold uppercase text-green-500 bg-white rounded-xl animate-bounce tracking-widez-10 z-20">
               Start
               <div className="absolute left-1/2 -bottom-2 w-0 h-0 border-x-8 border-x-transparent border-t-8 transform -translate-x-1/2" />

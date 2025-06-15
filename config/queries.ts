@@ -167,3 +167,24 @@ export const getLesson = cache(async (id?: number) => {
 
   return { ...data, challenges: normalizedChallanges };
 });
+
+export const getLessonPercentage = cache(async () => {
+  const courseProgress = await getCoursePogress();
+
+  if (!courseProgress?.activeLessonId) {
+    return 0;
+  }
+  const lesson = await getLesson(courseProgress.activeLessonId);
+
+  if (!lesson) {
+    return 0;
+  }
+
+  const compeletedChallenges = lesson.challenges.filter(
+    (challenge) => challenge.compeleted
+  );
+  const percentage = Math.round(
+    (compeletedChallenges.length / lesson.challenges.length) * 100
+  );
+  return percentage;
+});
