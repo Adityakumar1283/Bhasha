@@ -3,11 +3,11 @@ import { db } from "./db";
 import { auth } from "@clerk/nextjs/server";
 import {
   challengeProgress,
-  challenges,
   courses,
   lessons,
   units,
   userProgress,
+  challenges,
 } from "./schema";
 import { eq } from "drizzle-orm";
 
@@ -51,6 +51,10 @@ export const getUnits = cache(async () => {
   });
   const normalizedData = data.map((unit) => {
     const lessonsWithCompeletedStatus = unit.lessons.map((lesson) => {
+      if (lesson.challenges.length === 0) {
+        return { ...lesson, completed: false };
+      }
+
       const allcompeletedChallenges = lesson.challenges.every((challenge) => {
         return (
           challenge.challengeProgress &&
