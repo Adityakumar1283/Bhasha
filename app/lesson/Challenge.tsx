@@ -19,9 +19,7 @@ const Challenge = ({
   disabled,
   type,
 }: Props) => {
-  {
-    console.log("hi", options);
-  }
+ 
   return (
     <div
       className={cn(

@@ -12,11 +12,11 @@ export const upsertUserProgress = async (courseId: number) => {
   const { userId } = await auth();
 
   const user = await currentUser();
-
+console.log("userId:", userId, "user:", user); //remove this line in production
   if (!userId || !user) {
     throw new Error("unauthorized");
   }
-
+ 
   const course = await getCoursesById(courseId);
 
   if (!course) {
