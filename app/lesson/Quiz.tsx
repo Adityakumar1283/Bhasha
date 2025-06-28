@@ -79,7 +79,7 @@ export const Quiz = ({
           </div>
         </div>
       </div>
-      <Footer disabled={!selectedOption} status={status} onCheck={()=>{}} />
+      <Footer disabled={!selectedOption} status={status} onCheck={() => {}} />
     </>
   );
 };
