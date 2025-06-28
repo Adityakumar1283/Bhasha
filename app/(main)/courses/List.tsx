@@ -22,7 +22,11 @@ export const List = ({ courses, activeCourseId }: Props) => {
     }
     startTransition(() => {
  // console.log("Calling upsertUserProgress with id:", id);
-  upsertUserProgress(id)
+   fetch("/api/upsert-progress", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ courseId: id }),
+    })
     .then(() => {
       console.log("upsertUserProgress resolved");
       // router.push("/learn"); // Not needed, server action redirects

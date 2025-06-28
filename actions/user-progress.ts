@@ -12,11 +12,11 @@ export const upsertUserProgress = async (courseId: number) => {
   const { userId } = await auth();
 
   const user = await currentUser();
-console.log("userId:", userId, "user:", user); //remove this line in production
+  console.log("userId:", userId, "user:", user); //remove this line in production
   if (!userId || !user) {
     throw new Error("unauthorized");
   }
- 
+
   const course = await getCoursesById(courseId);
 
   if (!course) {
@@ -37,7 +37,6 @@ console.log("userId:", userId, "user:", user); //remove this line in production
     revalidatePath("/courses");
     revalidatePath("/learn");
     redirect("/learn");
-
   }
 
   await db.insert(userProgress).values({
@@ -50,5 +49,4 @@ console.log("userId:", userId, "user:", user); //remove this line in production
   revalidatePath("/courses");
   revalidatePath("/learn");
   redirect("/learn");
-  
 };
