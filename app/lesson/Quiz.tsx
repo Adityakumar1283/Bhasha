@@ -5,6 +5,7 @@ import Header from "./Header"; // Assuming you have a Header component
 import QuestionBubble from "./QuestionBubble";
 import Challenge from "./Challenge";
 import Footer from "./Footer";
+import { on } from "events";
 type Props = {
   initialPercentage: number;
   initialLessonId: number;
@@ -39,10 +40,33 @@ export const Quiz = ({
 
   const challenge = challenges[activeIndex];
   const options = challenge?.challengeOption ?? [];
+  const onNext = () => {
+    setActiveIndex((current) => current + 1);
+  };
+
   const onSelect = (id: number) => {
     if (status !== "none") return;
-
     setSelectedOption(id);
+  };
+  const onContinue = () => {
+    if (!selectedOption) return;
+    if (status === "incorrect") {
+      setStatus("none");
+      setSelectedOption(undefined);
+      return;
+    }
+    if (status === "correct") {
+      onNext();
+      setStatus("none");
+      setSelectedOption(undefined);
+      return;
+    }
+    const correctOption = options.find((option) => option.correct);
+    if (correctOption && correctOption.id === selectedOption) {
+      console.log("Correct answer selected");
+    } else {
+      console.log("Incorrect answer selected");
+    }
   };
   const title =
     challenge.type === "ASSIST"
@@ -79,7 +103,7 @@ export const Quiz = ({
           </div>
         </div>
       </div>
-      <Footer disabled={!selectedOption} status={status} onCheck={() => {}} />
+      <Footer disabled={!selectedOption} status={status} onCheck={onContinue} />
     </>
   );
 };
