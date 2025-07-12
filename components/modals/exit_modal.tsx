@@ -19,7 +19,7 @@ const Exit_modal = () => {
   const router = useRouter();
   const [isClient, setClient] = useState(false);
   const { isOpen, close } = useExitModal();
-  useEffect(() => setClient(false), []);
+  useEffect(() => setClient(true), []);
 
   if (!isClient) {
     return null;

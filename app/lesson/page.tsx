@@ -28,7 +28,7 @@ const Lessonpage = async () => {
       }))}
       initialHearts={userProgress.hearts}
       userSubscription={null} // Assuming userSubscription is not defined in this context
-       initialPercentage={0}    />
+       initialPercentage={initialPercentage}    />
   );
 };
 

@@ -32,7 +32,7 @@ export const upsertChallengeProgress = async (challengeId: number) => {
 
   const isPracticed = !!existingProgress;
   if (currentUserProgress.hearts === 0 && !isPracticed) {
-    return { error: " no hearts left" };
+    return { error: "hearts" };
   }
 
   if (isPracticed) {

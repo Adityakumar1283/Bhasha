@@ -29,7 +29,7 @@ export const List = ({ courses, activeCourseId }: Props) => {
     })
     .then(() => {
       console.log("upsertUserProgress resolved");
-      // router.push("/learn"); // Not needed, server action redirects
+       router.push("/learn"); // Not needed, server action redirects
     })
     .catch((err) => {
       // Ignore Next.js redirect error
