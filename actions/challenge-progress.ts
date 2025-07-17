@@ -4,7 +4,7 @@ import { db } from "@/config/db";
 import { getUserProgress } from "@/config/queries";
 import { auth } from "@clerk/nextjs/server";
 import { and, eq } from "drizzle-orm";
-import { error } from "console";
+
 import { revalidatePath } from "next/cache";
 
 export const upsertChallengeProgress = async (challengeId: number) => {

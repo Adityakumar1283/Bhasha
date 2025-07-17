@@ -1,6 +1,6 @@
 import { getLesson, getUserProgress } from "@/config/queries";
 import { redirect } from "next/navigation";
-import {Quiz} from "./Quiz";
+import { Quiz } from "./Quiz";
 const Lessonpage = async () => {
   const lessonData = getLesson();
   const userProgressData = getUserProgress();
@@ -22,13 +22,16 @@ const Lessonpage = async () => {
   return (
     <Quiz
       initialLessonId={lesson.id}
-      initialLessonChallenges={lesson.challenges.map(({ challengeOptions, ...rest }) => ({
-        ...rest,
-        challengeOption: challengeOptions,
-      }))}
+      initialLessonChallenges={lesson.challenges.map(
+        ({ challengeOptions, ...rest }) => ({
+          ...rest,
+          challengeOption: challengeOptions,
+        })
+      )}
       initialHearts={userProgress.hearts}
       userSubscription={null} // Assuming userSubscription is not defined in this context
-       initialPercentage={initialPercentage}    />
+      initialPercentage={initialPercentage}
+    />
   );
 };
 

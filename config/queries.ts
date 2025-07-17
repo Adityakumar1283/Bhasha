@@ -1,6 +1,7 @@
 import { cache } from "react";
 import { db } from "./db";
 import { auth } from "@clerk/nextjs/server";
+import { eq } from "drizzle-orm";
 import {
   challengeProgress,
   courses,
@@ -9,7 +10,6 @@ import {
   userProgress,
   challenges,
 } from "./schema";
-import { eq } from "drizzle-orm";
 
 export const getUserProgress = cache(async () => {
   const { userId } = await auth();

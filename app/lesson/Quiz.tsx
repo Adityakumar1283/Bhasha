@@ -9,6 +9,9 @@ import Footer from "./Footer";
 import { upsertChallengeProgress } from "@/actions/challenge-progress";
 import { toast } from "sonner";
 import { reduceHearts } from "@/actions/user-progress";
+import { useAudio } from "react-use";
+import Image from "next/image";
+import Result from "./Result";
 type Props = {
   initialPercentage: number;
   initialLessonId: number;
@@ -26,6 +29,10 @@ export const Quiz = ({
   initialPercentage,
   userSubscription,
 }: Props) => {
+  const [correctAudio, _c, correctControls] = useAudio({ src: "/correct.wav" });
+  const [incorrectAudio, _i, incorrectControls] = useAudio({
+    src: "/incorrect.wav",
+  });
   const [pending, startTransition] = useTransition();
   const [hearts, setHearts] = useState(initialHearts);
   const [percentage, setPercentage] = useState(initialPercentage);
@@ -77,6 +84,7 @@ export const Quiz = ({
               setSelectedOption(undefined);
               return; // <-- Stop here, do not progress!
             } else {
+              correctControls.play();
               setStatus("correct");
               setPercentage((prev) => prev + 100 / challenges.length);
               if (initialPercentage === 100) {
@@ -99,6 +107,7 @@ export const Quiz = ({
               setSelectedOption(undefined);
               return;
             }
+            incorrectControls.play();
             setStatus("incorrect");
             if (!res?.error) {
               setHearts((prev) => Math.max(prev - 1, 0));
@@ -108,6 +117,41 @@ export const Quiz = ({
       });
     }
   };
+
+  if (!challenge) {
+    return (
+      <>
+        <div className="flex flex-col gap-y-4 lg:gap-y-8 max-w-lg mx-auto text-center items-center justify-center h-full">
+          <Image
+            src="finish.svg"
+            alt="Finished"
+            className="hidden lg:block"
+            height={100}
+            width={100}
+          />
+          <Image
+            src="finish.svg"
+            alt="Finished"
+            className="block lg:hidden"
+            height={50}
+            width={50}
+          />
+          <h1 className="text-xl lg:text-3xl font-bold text-neutral-800">
+            Nicely Done! <br/> You have completed the lesson.
+          </h1>
+          <div className="flex items-center gap-x-4 w-full">
+            <Result 
+            variant="points"
+            value={challenges.length*10}/>
+            <Result 
+            variant="hearts"
+            value={challenges.length*10}/>
+            </div>
+        </div>
+      </>
+    );
+  }
+
   const title =
     challenge.type === "ASSIST"
       ? " Select the correct meaning"
@@ -115,6 +159,8 @@ export const Quiz = ({
 
   return (
     <>
+      {correctAudio}
+      {incorrectAudio}
       <Header
         hearts={hearts}
         percentage={percentage}

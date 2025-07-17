@@ -51,7 +51,7 @@ else{
   redirect("/learn");
 }};
 export const reduceHearts = async (challengeId: number) => {
-  const { userId } = await auth();
+  const {userId } = await auth();
   if (!userId) {
     throw new Error("User not Authorized");
   }
