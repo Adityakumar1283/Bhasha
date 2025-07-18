@@ -5,13 +5,14 @@ import Header from "./Header"; // Assuming you have a Header component
 import QuestionBubble from "./QuestionBubble";
 import Challenge from "./Challenge";
 import Footer from "./Footer";
-
+import Confetti from "react-confetti";
 import { upsertChallengeProgress } from "@/actions/challenge-progress";
 import { toast } from "sonner";
 import { reduceHearts } from "@/actions/user-progress";
-import { useAudio } from "react-use";
+import { useAudio, useWindowSize } from "react-use";
 import Image from "next/image";
 import Result from "./Result";
+import { useRouter } from "next/navigation";
 type Props = {
   initialPercentage: number;
   initialLessonId: number;
@@ -29,11 +30,15 @@ export const Quiz = ({
   initialPercentage,
   userSubscription,
 }: Props) => {
+  const [finishAudio] = useAudio({ src: "/finish.mp3", autoPlay: true });
+  const { width, height } = useWindowSize();
+  const router = useRouter();
   const [correctAudio, _c, correctControls] = useAudio({ src: "/correct.wav" });
   const [incorrectAudio, _i, incorrectControls] = useAudio({
     src: "/incorrect.wav",
   });
   const [pending, startTransition] = useTransition();
+  const [lessonId] = useState(initialLessonId);
   const [hearts, setHearts] = useState(initialHearts);
   const [percentage, setPercentage] = useState(initialPercentage);
   const [challenges] = useState(initialLessonChallenges);
@@ -121,7 +126,15 @@ export const Quiz = ({
   if (!challenge) {
     return (
       <>
-        <div className="flex flex-col gap-y-4 lg:gap-y-8 max-w-lg mx-auto text-center items-center justify-center h-full">
+        {finishAudio}
+        <Confetti
+          width={width}
+          height={height}
+          recycle={false}
+          numberOfPieces={500}
+          tweenDuration={1000}
+        />
+        <div className="min-h-screen overflow-hidden flex flex-col gap-y-4 lg:gap-y-8 max-w-lg mx-auto text-center items-center justify-center">
           <Image
             src="finish.svg"
             alt="Finished"
@@ -137,17 +150,19 @@ export const Quiz = ({
             width={50}
           />
           <h1 className="text-xl lg:text-3xl font-bold text-neutral-800">
-            Nicely Done! <br/> You have completed the lesson.
+            Nicely Done! <br /> You have completed the lesson.
           </h1>
           <div className="flex items-center gap-x-4 w-full">
-            <Result 
-            variant="points"
-            value={challenges.length*10}/>
-            <Result 
-            variant="hearts"
-            value={challenges.length*10}/>
-            </div>
+            <Result variant="points" value={challenges.length * 10} />
+            <Result variant="hearts" value={challenges.length * 10} />
+          </div>
+         <Footer
+          lessonid={lessonId}
+          status="completed"
+          onCheck={() => router.push("/learn")}
+        />
         </div>
+         
       </>
     );
   }
