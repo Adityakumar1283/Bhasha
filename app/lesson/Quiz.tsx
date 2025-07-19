@@ -9,10 +9,12 @@ import Confetti from "react-confetti";
 import { upsertChallengeProgress } from "@/actions/challenge-progress";
 import { toast } from "sonner";
 import { reduceHearts } from "@/actions/user-progress";
-import { useAudio, useWindowSize } from "react-use";
+import { useAudio, useWindowSize, useMount } from "react-use";
 import Image from "next/image";
 import Result from "./Result";
 import { useRouter } from "next/navigation";
+import useHeartsModal from "@/store/use-heartsmodal";
+import usepracticeModal from "@/store/use-practicemodal";
 type Props = {
   initialPercentage: number;
   initialLessonId: number;
@@ -30,6 +32,15 @@ export const Quiz = ({
   initialPercentage,
   userSubscription,
 }: Props) => {
+  const{open:openHeartsModal}=useHeartsModal();
+  const{open:openPracticeModal}=usepracticeModal();
+
+  useMount(() => {
+    if (initialPercentage === 100) {
+      openPracticeModal();
+    }
+  });
+
   const [finishAudio] = useAudio({ src: "/finish.mp3", autoPlay: true });
   const { width, height } = useWindowSize();
   const router = useRouter();
@@ -40,7 +51,9 @@ export const Quiz = ({
   const [pending, startTransition] = useTransition();
   const [lessonId] = useState(initialLessonId);
   const [hearts, setHearts] = useState(initialHearts);
-  const [percentage, setPercentage] = useState(initialPercentage);
+  const [percentage, setPercentage] = useState(()=>{
+    return initialPercentage === 100 ? 0 : initialPercentage; // Reset to 0 if already completed
+  });
   const [challenges] = useState(initialLessonChallenges);
   const [activeIndex, setActiveIndex] = useState(() => {
     const uncompletedIndex = challenges.findIndex(
@@ -84,9 +97,7 @@ export const Quiz = ({
         upsertChallengeProgress(challenge.id)
           .then((res) => {
             if (res?.error === "hearts") {
-              toast.error("Missing hearts");
-              setStatus("none");
-              setSelectedOption(undefined);
+              openHeartsModal();
               return; // <-- Stop here, do not progress!
             } else {
               correctControls.play();
@@ -107,9 +118,7 @@ export const Quiz = ({
         reduceHearts(challenge.id)
           .then((res) => {
             if (res?.error === "hearts") {
-              toast.error("Missing Hearts");
-              setStatus("none");
-              setSelectedOption(undefined);
+              openHeartsModal();
               return;
             }
             incorrectControls.play();
@@ -156,13 +165,12 @@ export const Quiz = ({
             <Result variant="points" value={challenges.length * 10} />
             <Result variant="hearts" value={challenges.length * 10} />
           </div>
-         <Footer
-          lessonid={lessonId}
-          status="completed"
-          onCheck={() => router.push("/learn")}
-        />
+          <Footer
+            lessonid={lessonId}
+            status="completed"
+            onCheck={() => router.push("/learn")}
+          />
         </div>
-         
       </>
     );
   }
