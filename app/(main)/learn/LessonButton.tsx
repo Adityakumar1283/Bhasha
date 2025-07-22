@@ -42,7 +42,7 @@ const LessonButton = ({
   const isCompeleted = !current && !locked;
   const Icon = isCompeleted ? Check : isLast ? Crown : Star;
 
-  const href = isCompeleted ? `/lesson${id}` : "/lesson";
+  const href = isCompeleted ? `/lesson/${id}` : "/lesson/";
 
   // Debug: log locked value and current state
 

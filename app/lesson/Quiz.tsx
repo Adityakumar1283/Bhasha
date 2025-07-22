@@ -32,8 +32,8 @@ export const Quiz = ({
   initialPercentage,
   userSubscription,
 }: Props) => {
-  const{open:openHeartsModal}=useHeartsModal();
-  const{open:openPracticeModal}=usepracticeModal();
+  const { open: openHeartsModal } = useHeartsModal();
+  const { open: openPracticeModal } = usepracticeModal();
 
   useMount(() => {
     if (initialPercentage === 100) {
@@ -42,16 +42,17 @@ export const Quiz = ({
   });
 
   const [finishAudio] = useAudio({ src: "/finish.mp3", autoPlay: true });
-  const { width, height } = useWindowSize();
-  const router = useRouter();
+ 
   const [correctAudio, _c, correctControls] = useAudio({ src: "/correct.wav" });
   const [incorrectAudio, _i, incorrectControls] = useAudio({
     src: "/incorrect.wav",
   });
+   const { width, height } = useWindowSize();
+  const router = useRouter();
   const [pending, startTransition] = useTransition();
   const [lessonId] = useState(initialLessonId);
   const [hearts, setHearts] = useState(initialHearts);
-  const [percentage, setPercentage] = useState(()=>{
+  const [percentage, setPercentage] = useState(() => {
     return initialPercentage === 100 ? 0 : initialPercentage; // Reset to 0 if already completed
   });
   const [challenges] = useState(initialLessonChallenges);

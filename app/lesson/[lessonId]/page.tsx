@@ -8,10 +8,9 @@ type Props = {
   };
 };
 
-
-
-const LessonIdpage = async ({params}:Props) => {
-  const lessonData = getLesson(params.lessonId);
+const LessonIdpage = async ({ params }: Props) => {
+  const lessonId = params.lessonId;
+  const lessonData = getLesson(lessonId);
   const userProgressData = getUserProgress();
 
   const [lesson, userProgress] = await Promise.all([
@@ -38,7 +37,7 @@ const LessonIdpage = async ({params}:Props) => {
         })
       )}
       initialHearts={userProgress.hearts}
-      userSubscription={null} // Assuming userSubscription is not defined in this context
+      userSubscription={null}
       initialPercentage={initialPercentage}
     />
   );
