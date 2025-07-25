@@ -15,8 +15,17 @@ const items = ({ hearts, points, hasSubscribed }: Props) => {
 
   const refillHearts = () => {
     if (pending || hearts === 5 || points < Points_To_Refill) return;
-    startTransition(() => { onRefillHearts().catch(()=> toast.error("Failed to refill hearts")); })
+    startTransition(() => {
+      onRefillHearts().catch(() => toast.error("Failed to refill hearts"));
+    });
   };
+
+  const onUpgrade = () => {
+    if (pending || hasSubscribed) return;
+    startTransition(() => {
+      
+    });
+  }
 
   return (
     <ul className="w-full">
@@ -39,6 +48,26 @@ const items = ({ hearts, points, hasSubscribed }: Props) => {
               <p>{Points_To_Refill}</p>
             </div>
           )}
+        </Button>
+      </div>
+      <div className="flex items-center w-full p-4 pt-8 gap-x-4 border-t-2 ">
+        <Image
+          src="/unlimited.svg"
+          alt="Unlimited Hearts"
+          height={60}
+          width={60}
+        />
+        <div className="flex-1">
+          <p className="text-neutral-800 text-base lg:text-xl font-bold">
+            Unlimited Hearts
+          </p>
+
+        </div>
+        <Button disabled={pending || hasSubscribed} onClick={onUpgrade} >
+          {hasSubscribed ? 
+            "active"
+           : "upgrade"}
+            
         </Button>
       </div>
     </ul>
