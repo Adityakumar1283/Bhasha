@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useTransition } from "react";
 import { onRefillHearts } from "@/actions/user-progress";
 import { toast } from "sonner";
+import { createStripeUrl } from "@/actions/user-subscription";
 type Props = {
   hearts: number;
   points: number;
@@ -23,9 +24,15 @@ const items = ({ hearts, points, hasSubscribed }: Props) => {
   const onUpgrade = () => {
     if (pending || hasSubscribed) return;
     startTransition(() => {
-      
+      createStripeUrl()
+        .then((res) => {
+          if (res.data) {
+            window.location.href = res.data;
+          }
+        })
+        .catch(() => toast.error("Failed to upgrade subscription"));
     });
-  }
+  };
 
   return (
     <ul className="w-full">
@@ -61,13 +68,9 @@ const items = ({ hearts, points, hasSubscribed }: Props) => {
           <p className="text-neutral-800 text-base lg:text-xl font-bold">
             Unlimited Hearts
           </p>
-
         </div>
-        <Button disabled={pending || hasSubscribed} onClick={onUpgrade} >
-          {hasSubscribed ? 
-            "active"
-           : "upgrade"}
-            
+        <Button disabled={pending || hasSubscribed} onClick={onUpgrade}>
+          {hasSubscribed ? "active" : "upgrade"}
         </Button>
       </div>
     </ul>
