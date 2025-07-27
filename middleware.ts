@@ -1,8 +1,8 @@
 import { clerkMiddleware } from '@clerk/nextjs/server';
 
-export default clerkMiddleware( 
-   
-);
+export default clerkMiddleware({
+  publicRoutes: ["/", "/api/webhooks/stripe"],
+});
 
 export const config = {
   matcher: [
