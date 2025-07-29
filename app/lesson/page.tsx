@@ -1,13 +1,14 @@
-import { getLesson, getUserProgress } from "@/config/queries";
+import { getLesson, getUserProgress, getUserSubscription } from "@/config/queries";
 import { redirect } from "next/navigation";
 import { Quiz } from "./Quiz";
 const Lessonpage = async () => {
   const lessonData = getLesson();
   const userProgressData = getUserProgress();
-
-  const [lesson, userProgress] = await Promise.all([
+  const userSubscriptionData = getUserSubscription();
+  const [lesson, userProgress,userSubscription] = await Promise.all([
     lessonData,
     userProgressData,
+    userSubscriptionData
   ]);
 
   if (!lesson || !userProgress) {
@@ -29,7 +30,7 @@ const Lessonpage = async () => {
         })
       )}
       initialHearts={userProgress.hearts}
-      userSubscription={null} // Assuming userSubscription is not defined in this context
+      userSubscription={userSubscription} 
       initialPercentage={initialPercentage}
     />
   );

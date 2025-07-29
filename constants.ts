@@ -1,0 +1,1 @@
+export const Points_To_Refill = 10;

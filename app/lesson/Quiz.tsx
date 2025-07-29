@@ -1,5 +1,5 @@
 "use client";
-import { challengeOptions, challenges } from "@/config/schema";
+import { challengeOptions, challenges, userSubscription } from "@/config/schema";
 import { useState, useTransition } from "react";
 import Header from "./Header"; // Assuming you have a Header component
 import QuestionBubble from "./QuestionBubble";
@@ -23,8 +23,11 @@ type Props = {
     compeleted: boolean;
     challengeOption: (typeof challengeOptions.$inferSelect)[];
   })[];
-  userSubscription: any; // Replace with actual type if available
-};
+  userSubscription: typeof userSubscription.$inferSelect & {
+    isActive: boolean;
+  } | null; 
+  }; 
+
 export const Quiz = ({
   initialHearts,
   initialLessonChallenges,

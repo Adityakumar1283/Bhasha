@@ -1,7 +1,7 @@
 "use server";
 import { challengeProgress, challenges, userProgress } from "@/config/schema";
 import { db } from "@/config/db";
-import { getUserProgress } from "@/config/queries";
+import { getUserProgress, getUserSubscription } from "@/config/queries";
 import { auth } from "@clerk/nextjs/server";
 import { and, eq } from "drizzle-orm";
 
@@ -12,6 +12,7 @@ export const upsertChallengeProgress = async (challengeId: number) => {
   if (!userId) throw new Error("User not authenticated");
 
   const currentUserProgress = await getUserProgress();
+  const userSubscription = await getUserSubscription();
   if (!currentUserProgress) throw new Error("User progress not found");
 
   const challenge = await db.query.challenges.findFirst({
@@ -31,7 +32,7 @@ export const upsertChallengeProgress = async (challengeId: number) => {
   });
 
   const isPracticed = !!existingProgress;
-  if (currentUserProgress.hearts === 0 && !isPracticed) {
+  if (currentUserProgress.hearts === 0 && !isPracticed && !userSubscription?.isActive) {
     return { error: "hearts" };
   }
 

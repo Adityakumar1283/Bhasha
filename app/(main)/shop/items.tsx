@@ -5,12 +5,13 @@ import { useTransition } from "react";
 import { onRefillHearts } from "@/actions/user-progress";
 import { toast } from "sonner";
 import { createStripeUrl } from "@/actions/user-subscription";
+import { Points_To_Refill } from "@/constants";
 type Props = {
   hearts: number;
   points: number;
   hasSubscribed: boolean;
 };
-const Points_To_Refill = 10;
+
 const items = ({ hearts, points, hasSubscribed }: Props) => {
   const [pending, startTransition] = useTransition();
 
