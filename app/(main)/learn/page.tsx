@@ -12,6 +12,8 @@ import {
 } from "@/config/queries";
 import { redirect } from "next/navigation";
 import Unit from "./unit";
+import Promo from "@/components/Promo";
+import Quests from "@/components/quests";
 
 const Page = async () => {
   const userProgressData = getUserProgress();
@@ -35,6 +37,8 @@ const Page = async () => {
     redirect("/courses");
   }
 
+  const isPro = !!userSubscription?.isActive;
+
   return (
     <div className="flex flex-row-reverse gap-[48px] px-6">
       <StickeyWrapper>
@@ -42,8 +46,17 @@ const Page = async () => {
           activeCourse={userProgress.activeCourse}
           hearts={userProgress.hearts}
           points={userProgress.points}
-          hasSubscribed={!!userSubscription?.isActive}
+          hasSubscribed={isPro}
         ></UserProgress>
+
+        {
+          !isPro && (
+            <Promo />
+
+          )
+        }
+
+        <Quests points={userProgress.points}/>
       </StickeyWrapper>
       <Feedwrapper>
         <Header title={userProgress.activeCourse.title} />
@@ -61,6 +74,7 @@ const Page = async () => {
           </div>
         ))}
       </Feedwrapper>
+      
     </div>
   );
 };

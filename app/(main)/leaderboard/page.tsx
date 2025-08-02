@@ -8,6 +8,8 @@ import { redirect } from "next/navigation";
 import React from "react";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import Promo from "@/components/Promo";
+import Quests from "@/components/quests";
 
 
 const leaderPage = async () => {
@@ -19,7 +21,7 @@ const leaderPage = async () => {
   if (!userPogress || !userPogress.activeCourse) {
     redirect("/courses");
   }
-
+const isPro = !!userSubscription?.isActive;
   return (
     <div className="flex flex-row-reverse gap-[48px] px-6">
       <StickeyWrapper>
@@ -27,9 +29,11 @@ const leaderPage = async () => {
           activeCourse={userPogress.activeCourse}
           hearts={userPogress.hearts}
           points={userPogress.points}
-          hasSubscribed={!!userSubscription?.isActive}
+          hasSubscribed={isPro}
         />
       </StickeyWrapper>
+        {!isPro && <Promo />}
+        
       <Feedwrapper>
         <div className="w-full flex flex-col items-center ">
           <Image src={"/leaderboard.svg"} alt={"leaderboard"} height={90} width={90} />
